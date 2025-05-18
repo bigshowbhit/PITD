@@ -2,27 +2,25 @@ package tile;
 
 import main.GamePanel;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class TileManager {
 
     GamePanel gp;
-    public Tile[] tile;
     public int[][] mapTileNum;
+    public Tile[][] mapTiles;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        tile = new Tile[10];
         mapTileNum = new int[gp.maxScreenCol][gp.maxScreenRow];
-        getTileImage();
+        mapTiles = new Tile[gp.maxScreenCol][gp.maxScreenRow];
         loadMap();
     }
 
+    /*
     public void getTileImage()
     {
         try{
@@ -55,6 +53,7 @@ public class TileManager {
             e.printStackTrace();
         }
     }
+    */
 
     public void loadMap() {
         try {
@@ -75,6 +74,27 @@ public class TileManager {
                     int num = Integer.parseInt(numbers[col]);
 
                     mapTileNum[col][row] = num;
+                    switch(num) {
+                        case 0:
+                            mapTiles[col][row] = new Desert();
+                            break;
+                        case 1:
+                            mapTiles[col][row] = new Pipe();
+                            break;
+                        case 2:
+                            mapTiles[col][row] = new Pump();
+                            break;
+                        case 3:
+                            mapTiles[col][row] = new Cistern();
+                            break;
+                        case 6:
+                            mapTiles[col][row] = new Reservoir();
+                            break;
+                        case 7:
+                            mapTiles[col][row] = new Spring();
+                            break;
+                    }
+
                     col++;
                 }
 
@@ -88,6 +108,7 @@ public class TileManager {
 
         }
     }
+
     public void draw(Graphics2D g2)
     {
         int col = 0;
@@ -96,9 +117,8 @@ public class TileManager {
         int y = 0;
 
         while(col < gp.maxScreenCol && row < gp.maxScreenRow) {
-            int tileNum = mapTileNum[col][row];
-
-            g2.drawImage(tile[tileNum].image, x, y, gp.tileSize, gp.tileSize, null);
+            // Draw the tile
+            g2.drawImage(mapTiles[col][row].image, x, y, gp.tileSize, gp.tileSize, null);
             col++;
             x += gp.tileSize;
 

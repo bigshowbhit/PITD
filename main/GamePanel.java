@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable
     Thread gameThread;
     Plumber plumber = new Plumber(this, keyHandler);
     Saboteur saboteur = new Saboteur(this, keyHandler);
-    TileManager Tm = new TileManager(this);
+    public TileManager Tm = new TileManager(this);
     public CollisionDetector cd = new CollisionDetector(this);
 
     public GamePanel()

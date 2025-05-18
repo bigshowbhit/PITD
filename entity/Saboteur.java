@@ -3,6 +3,7 @@ package entity;
 import main.Directions;
 import main.GamePanel;
 import main.KeyHandler;
+import tile.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -52,6 +53,10 @@ public class Saboteur extends Entity{
         else if(keyH.rightArrowPressed) {
             direction = Directions.RIGHT;
         }
+        else if(keyH.enterPressed) {
+            breakTile();
+        }
+
         // Check for collision with the tile
         collisionOn = false;
         gp.cd.checkTile(this);
@@ -73,6 +78,15 @@ public class Saboteur extends Entity{
                     break;
             }
         }
+    }
+
+    public void breakTile() {
+        int entityMiddleX = x + solidArea.x + solidArea.width / 2;
+        int entityMiddleY = y + solidArea.y + solidArea.height / 2;
+        int entityRow = entityMiddleY / gp.tileSize;
+        int entityCol = entityMiddleX / gp.tileSize;
+        Tile tile = gp.Tm.mapTiles[entityCol][entityRow];
+        tile.breakTile();
     }
 
     public void draw(Graphics2D g2) {

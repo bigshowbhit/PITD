@@ -3,6 +3,7 @@ package entity;
 import main.Directions;
 import main.GamePanel;
 import main.KeyHandler;
+import tile.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -53,6 +54,9 @@ public class Plumber extends Entity{
         else if(keyH.rightPressed) {
             direction = Directions.RIGHT;
         }
+        else if(keyH.escapePressed) {
+            repairTile();
+        }
 
         // Check for collision with the tile
         collisionOn = false;
@@ -75,6 +79,15 @@ public class Plumber extends Entity{
                     break;
             }
         }
+    }
+
+    public void repairTile() {
+        int entityMiddleX = x + solidArea.x + solidArea.width / 2;
+        int entityMiddleY = y + solidArea.y + solidArea.height / 2;
+        int entityRow = entityMiddleY / gp.tileSize;
+        int entityCol = entityMiddleX / gp.tileSize;
+        Tile tile = gp.Tm.mapTiles[entityCol][entityRow];
+        tile.fixTile();
     }
 
     public void draw(Graphics2D g2) {

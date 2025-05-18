@@ -9,6 +9,7 @@ public class KeyHandler implements KeyListener {
 
     //for saboteur
     public boolean upArrowPressed, downArrowPressed, leftArrowPressed, rightArrowPressed;
+    public boolean enterPressed, escapePressed;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -36,6 +37,11 @@ public class KeyHandler implements KeyListener {
         if (c == KeyEvent.VK_DOWN) downArrowPressed = true;
         if (c == KeyEvent.VK_LEFT) leftArrowPressed = true;
         if (c == KeyEvent.VK_RIGHT) rightArrowPressed = true;
+
+        //Enter for breaking the pipe/pump
+        if (c == KeyEvent.VK_ENTER) enterPressed = true;
+        //Escape for fixing the pipe/pump
+        if (c == KeyEvent.VK_ESCAPE) escapePressed = true;
     }
 
     @Override
@@ -59,5 +65,10 @@ public class KeyHandler implements KeyListener {
         if (c == KeyEvent.VK_DOWN) downArrowPressed = false;
         if (c == KeyEvent.VK_LEFT) leftArrowPressed = false;
         if (c == KeyEvent.VK_RIGHT) rightArrowPressed = false;
+
+        //Enter for breaking the pipe/pump
+        if (c == KeyEvent.VK_ENTER) enterPressed = false;
+        //Escape for fixing the pipe/pump
+        if (c == KeyEvent.VK_ESCAPE) escapePressed = false;
     }
 }
