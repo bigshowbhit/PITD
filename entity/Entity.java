@@ -13,6 +13,4 @@ public class Entity {
     public Rectangle solidArea;
     public boolean collisionOn  = false;
     public BufferedImage image;
-
-    int solidAreaDefaultX, solidAreaDefaultY;
 }

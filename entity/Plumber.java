@@ -3,6 +3,7 @@ package entity;
 import main.Directions;
 import main.GamePanel;
 import main.KeyHandler;
+import tile.Desert;
 import tile.Pipe;
 import tile.Pump;
 import tile.Tile;
@@ -16,13 +17,13 @@ public class Plumber extends Entity{
 
     GamePanel gp;
     KeyHandler keyH;
+    String pickedTile;
 
     public Plumber(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
         solidArea = new Rectangle(8,16, 32, 32);
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
+        pickedTile = "";
         SetDefaultValues();
         GetPlayerImage();
     }
@@ -66,6 +67,14 @@ public class Plumber extends Entity{
         else if(keyH.ePressed) {
             // Manufacture pump
             manufacturePump();
+        }
+        else if(keyH.zPressed) {
+            // Pick up tile
+            pickTile();
+        }
+        else if(keyH.cPressed) {
+            // Place tile
+            placeTile();
         }
 
         // Check for collision with the tile
@@ -116,6 +125,7 @@ public class Plumber extends Entity{
         }
 
         gp.Tm.mapTiles[entityCol-1][entityRow-1] = new Pipe();
+        gp.Tm.mapTileNum[entityCol-1][entityRow-1] = 1;
         gp.Tm.mapTiles[entityCol-1][entityRow-1].collision = true;
 
         System.out.println("Manufacturing Pipe");
@@ -133,9 +143,81 @@ public class Plumber extends Entity{
         }
 
         gp.Tm.mapTiles[entityCol-1][entityRow-1] = new Pump();
+        gp.Tm.mapTileNum[entityCol-1][entityRow-1] = 2;
         gp.Tm.mapTiles[entityCol-1][entityRow-1].collision = true;
 
         System.out.println("Manufacturing Pump");
+    }
+
+    public void pickTile() {
+        int entityMiddleX = x + solidArea.x + solidArea.width / 2;
+        int entityMiddleY = y + solidArea.y + solidArea.height / 2;
+        int entityRow = entityMiddleY / gp.tileSize;
+        int entityCol = entityMiddleX / gp.tileSize;
+        String tileName = gp.Tm.getTileName(entityCol, entityRow);
+
+        System.out.println("Pickinasdg up tile");
+
+        if(!tileName.equals("Cistern")) {
+            return;
+        }
+
+        int pickTileRow = entityRow - 1;
+        int pickTileCol = entityCol - 1;
+        String pickTileName = gp.Tm.getTileName(pickTileCol, pickTileRow);
+
+        if(pickTileName.equals("Pipe") || pickTileName.equals("Pump")) {
+            pickedTile = pickTileName;
+            gp.Tm.mapTiles[pickTileCol][pickTileRow] = new Desert();
+            gp.Tm.mapTileNum[pickTileCol][pickTileRow] = 0;
+            System.out.println("Picking up tile");
+        }
+    }
+
+    public void placeTile() {
+        if(pickedTile.isEmpty()) {
+            return;
+        }
+
+        int entityMiddleX = x + solidArea.x + solidArea.width / 2;
+        int entityMiddleY = y + solidArea.y + solidArea.height / 2;
+        int entityRow = entityMiddleY / gp.tileSize;
+        int entityCol = entityMiddleX / gp.tileSize;
+        int placeRow = entityRow;
+        int placeCol = entityCol;
+
+        switch(direction) {
+            case Directions.UP:
+                placeRow--;
+                break;
+            case Directions.DOWN:
+                placeRow++;
+                break;
+            case Directions.LEFT:
+                placeCol--;
+                break;
+            case Directions.RIGHT:
+                placeCol++;
+                break;
+        }
+
+        if(!gp.Tm.getTileName(placeCol, placeRow).equals("Desert")) {
+            return;
+        }
+
+        if(pickedTile.equals("Pipe")) {
+            gp.Tm.mapTiles[placeCol][placeRow] = new Pipe();
+        }
+        else if(pickedTile.equals("Pump")) {
+            gp.Tm.mapTiles[placeCol][placeRow] = new Pump();
+        }
+
+        pickedTile = "";
+
+        System.out.println("Entity col: " + entityCol + " row: " + entityRow);
+        System.out.println("Place tile col: " + placeCol + " row: " + placeRow);
+        System.out.println("Place tile name: " + gp.Tm.getTileName(placeCol, placeRow));
+        System.out.println("Placing tile");
     }
 
     public void draw(Graphics2D g2) {

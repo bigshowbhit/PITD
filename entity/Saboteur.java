@@ -18,8 +18,6 @@ public class Saboteur extends Entity{
         this.gp = gp;
         this.keyH = keyH;
         solidArea = new Rectangle(8,16, 32, 32);
-        solidAreaDefaultX = solidArea.x;
-        solidAreaDefaultY = solidArea.y;
         SetDefaultValues();
         GetPlayerImage();
     }
