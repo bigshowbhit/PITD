@@ -80,6 +80,7 @@ public class Plumber extends Entity{
         // Check for collision with the tile
         collisionOn = false;
         gp.cd.checkTile(this);
+        gp.cd.checkEntity(this, gp.saboteur);
 
         // If collision if false, and player can move
         if(!collisionOn && (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed)) {

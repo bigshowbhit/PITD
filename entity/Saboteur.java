@@ -58,6 +58,7 @@ public class Saboteur extends Entity{
         // Check for collision with the tile
         collisionOn = false;
         gp.cd.checkTile(this);
+        gp.cd.checkEntity(this, gp.plumber);
 
         // If collision if false, and player can move
         if(!collisionOn && (keyH.upArrowPressed || keyH.downArrowPressed || keyH.leftArrowPressed || keyH.rightArrowPressed)) {
