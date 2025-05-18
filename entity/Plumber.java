@@ -3,6 +3,8 @@ package entity;
 import main.Directions;
 import main.GamePanel;
 import main.KeyHandler;
+import tile.Pipe;
+import tile.Pump;
 import tile.Tile;
 
 import javax.imageio.ImageIO;
@@ -57,6 +59,14 @@ public class Plumber extends Entity{
         else if(keyH.escapePressed) {
             repairTile();
         }
+        else if(keyH.qPressed) {
+            // Manufacture pipe
+            manufacturePipe();
+        }
+        else if(keyH.ePressed) {
+            // Manufacture pump
+            manufacturePump();
+        }
 
         // Check for collision with the tile
         collisionOn = false;
@@ -82,12 +92,50 @@ public class Plumber extends Entity{
     }
 
     public void repairTile() {
+        Tile tile = getCurrentTile();
+        tile.fixTile();
+    }
+
+    public Tile getCurrentTile() {
         int entityMiddleX = x + solidArea.x + solidArea.width / 2;
         int entityMiddleY = y + solidArea.y + solidArea.height / 2;
         int entityRow = entityMiddleY / gp.tileSize;
         int entityCol = entityMiddleX / gp.tileSize;
-        Tile tile = gp.Tm.mapTiles[entityCol][entityRow];
-        tile.fixTile();
+        return gp.Tm.mapTiles[entityCol][entityRow];
+    }
+
+    public void manufacturePipe() {
+        int entityMiddleX = x + solidArea.x + solidArea.width / 2;
+        int entityMiddleY = y + solidArea.y + solidArea.height / 2;
+        int entityRow = entityMiddleY / gp.tileSize;
+        int entityCol = entityMiddleX / gp.tileSize;
+        String tileName = gp.Tm.getTileName(entityCol, entityRow);
+
+        if(!tileName.equals("Cistern")) {
+            return;
+        }
+
+        gp.Tm.mapTiles[entityCol-1][entityRow-1] = new Pipe();
+        gp.Tm.mapTiles[entityCol-1][entityRow-1].collision = true;
+
+        System.out.println("Manufacturing Pipe");
+    }
+
+    public void manufacturePump() {
+        int entityMiddleX = x + solidArea.x + solidArea.width / 2;
+        int entityMiddleY = y + solidArea.y + solidArea.height / 2;
+        int entityRow = entityMiddleY / gp.tileSize;
+        int entityCol = entityMiddleX / gp.tileSize;
+        String tileName = gp.Tm.getTileName(entityCol, entityRow);
+
+        if(!tileName.equals("Cistern")) {
+            return;
+        }
+
+        gp.Tm.mapTiles[entityCol-1][entityRow-1] = new Pump();
+        gp.Tm.mapTiles[entityCol-1][entityRow-1].collision = true;
+
+        System.out.println("Manufacturing Pump");
     }
 
     public void draw(Graphics2D g2) {

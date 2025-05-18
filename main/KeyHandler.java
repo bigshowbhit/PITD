@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
     public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public boolean qPressed, ePressed, tabPressed, shiftPressed; // Added Tab and LeftShift keys
 
     //for saboteur
     public boolean upArrowPressed, downArrowPressed, leftArrowPressed, rightArrowPressed;
@@ -30,6 +31,18 @@ public class KeyHandler implements KeyListener {
         }
         if(c == KeyEvent.VK_D) {
             rightPressed = true;
+        }
+        if(c == KeyEvent.VK_Q) {
+            qPressed = true;
+        }
+        if(c == KeyEvent.VK_E) {
+            ePressed = true;
+        }
+        if(c == KeyEvent.VK_TAB) { // Tab key
+            tabPressed = true;
+        }
+        if(c == KeyEvent.VK_SHIFT) { // LeftShift key
+            shiftPressed = true;
         }
 
         // Saboteur controls
@@ -60,6 +73,19 @@ public class KeyHandler implements KeyListener {
         if(c == KeyEvent.VK_D) {
             rightPressed = false;
         }
+        if(c == KeyEvent.VK_Q) {
+            qPressed = false;
+        }
+        if(c == KeyEvent.VK_E) {
+            ePressed = false;
+        }
+        if(c == KeyEvent.VK_TAB) { // Tab key
+            tabPressed = false;
+        }
+        if(c == KeyEvent.VK_SHIFT) { // LeftShift key
+            shiftPressed = false;
+        }
+
         // Saboteur controls
         if (c == KeyEvent.VK_UP) upArrowPressed = false;
         if (c == KeyEvent.VK_DOWN) downArrowPressed = false;

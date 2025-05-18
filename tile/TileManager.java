@@ -109,6 +109,25 @@ public class TileManager {
         }
     }
 
+    public String getTileName(int col, int row) {
+        switch(mapTileNum[col][row]) {
+            case 0:
+                return "Desert";
+            case 1:
+                return "Pipe";
+            case 2:
+                return "Pump";
+            case 3:
+                return "Cistern";
+            case 6:
+                return "Reservoir";
+            case 7:
+                return "Spring";
+            default:
+                return "Unknown Tile";
+        }
+    }
+
     public void draw(Graphics2D g2)
     {
         int col = 0;
